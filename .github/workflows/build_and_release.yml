@@ -1,0 +1,63 @@
+name: Build + Release (master)
+
+on:
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+          cache: maven
+
+      - name: Build with Maven
+        run: |
+          cd TriggerZones-Editor
+          mvn -B package --file pom.xml
+
+      - name: Parse version + release notes from commit message
+        id: meta
+        shell: bash
+        run: |
+          msg="${{ github.event.head_commit.message }}"
+
+          # First line = tag (expected: v<version>)
+          tag="$(printf '%s\n' "$msg" | sed -n '1p' | tr -d '\r')"
+
+          # Everything after first line = body
+          body="$(printf '%s\n' "$msg" | sed '1d')"
+
+          # Validate tag format: v1.2.3 or v1.2.3-rc.1 etc.
+          if [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z]+)*$ ]]; then
+            echo "tag=$tag" >> "$GITHUB_OUTPUT"
+            echo "body<<EOF" >> "$GITHUB_OUTPUT"
+            printf '%s\n' "$body" >> "$GITHUB_OUTPUT"
+            echo "EOF" >> "$GITHUB_OUTPUT"
+            echo "should_release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "First line '$tag' doesn't match expected version tag format. Skipping release."
+            echo "should_release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create GitHub Release + upload jar
+        if: steps.meta.outputs.should_release == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.meta.outputs.tag }}
+          name: Release ${{ steps.meta.outputs.tag }}
+          body: ${{ steps.meta.outputs.body }}
+          files: |
+            TriggerZones-Editor/target/TriggerZones-Editor.jar
