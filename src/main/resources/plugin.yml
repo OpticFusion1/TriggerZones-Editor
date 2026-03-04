@@ -1,6 +1,18 @@
-name: TriggerZones-Editor
+name: TriggerZonesEditor
 description: Editor for TriggerZones
 version: ${project.version}
 author: Optic_Fusion1
 main: optic_fusion1.tzeditor.TZEditor
 api-version: 1.13
+depend: ["TriggerZones"]
+libraries:
+  - fastutil:fastutil:5.0.9
+commands:
+  triggerzones:
+    aliases: [tz]
+    description: Trigger zone editor tools.
+    usage: /triggerzones <wand|pos1|pos2|create/delete <id>|clear|info|list>
+permissions:
+  triggerzones.editor:
+    description: Allows using the in-game trigger zone editor.
+    default: op
