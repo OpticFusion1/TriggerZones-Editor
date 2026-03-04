@@ -1,0 +1,6 @@
+name: TriggerZones-Editor
+description: Editor for TriggerZones
+version: ${project.version}
+author: Optic_Fusion1
+main: optic_fusion1.tzeditor.TZEditor
+api-version: 1.13
