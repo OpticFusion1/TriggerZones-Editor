@@ -5,6 +5,14 @@
     <artifactId>TriggerZones-Editor</artifactId>
     <version>0.2.0</version>
     <packaging>jar</packaging>
+    
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
+    </repositories>
+    
     <build>
         <resources>
             <resource>
