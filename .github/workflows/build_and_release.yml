@@ -24,23 +24,16 @@ jobs:
           cache: maven
 
       - name: Build with Maven
-        run: |
-          cd TriggerZones-Editor
-          mvn -B package --file pom.xml
+        run: mvn -B package
 
       - name: Parse version + release notes from commit message
         id: meta
         shell: bash
         run: |
           msg="${{ github.event.head_commit.message }}"
-
-          # First line = tag (expected: v<version>)
           tag="$(printf '%s\n' "$msg" | sed -n '1p' | tr -d '\r')"
-
-          # Everything after first line = body
           body="$(printf '%s\n' "$msg" | sed '1d')"
 
-          # Validate tag format: v1.2.3 or v1.2.3-rc.1 etc.
           if [[ "$tag" =~ ^v[0-9]+\.[0-9]+\.[0-9]+([.-][0-9A-Za-z]+)*$ ]]; then
             echo "tag=$tag" >> "$GITHUB_OUTPUT"
             echo "body<<EOF" >> "$GITHUB_OUTPUT"
@@ -60,4 +53,4 @@ jobs:
           name: Release ${{ steps.meta.outputs.tag }}
           body: ${{ steps.meta.outputs.body }}
           files: |
-            TriggerZones-Editor/target/TriggerZones-Editor.jar
+            target/TriggerZones-Editor.jar
