@@ -11,7 +11,7 @@ commands:
   triggerzones:
     aliases: [tz]
     description: Trigger zone editor tools.
-    usage: /triggerzones <wand|pos1|pos2|create/delete <id>|clear|info|list>
+    usage: /triggerzones <wand|pos1|pos2|create/delete/select/update/toggleShow <id>|clear|info|list>
 permissions:
   triggerzones.editor:
     description: Allows using the in-game trigger zone editor.

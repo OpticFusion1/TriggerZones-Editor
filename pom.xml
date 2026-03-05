@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>Optic_Fusion1</groupId>
     <artifactId>TriggerZones-Editor</artifactId>
-    <version>0.2.0</version>
+    <version>0.3.0</version>
     <packaging>jar</packaging>
     
     <repositories>
@@ -82,7 +82,7 @@
         <dependency>
             <groupId>optic_fusion1.triggerzones</groupId>
             <artifactId>TriggerZones</artifactId>
-            <version>0.7.0</version>
+            <version>0.8.0</version>
             <scope>provided</scope>
         </dependency>
         

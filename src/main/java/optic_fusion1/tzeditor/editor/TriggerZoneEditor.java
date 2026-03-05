@@ -9,6 +9,8 @@ import optic_fusion1.triggerzones.trigger.TriggerZone;
 import optic_fusion1.triggerzones.trigger.TriggerZoneManager;
 import optic_fusion1.tzeditor.editor.event.TriggerZoneCreatedEvent;
 import optic_fusion1.tzeditor.editor.event.TriggerZoneSelectionUpdateEvent;
+import optic_fusion1.tzeditor.editor.visual.EditorSelectionProvider;
+import optic_fusion1.tzeditor.editor.visual.ZoneParticleViewer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -16,12 +18,14 @@ import org.bukkit.entity.Player;
 public class TriggerZoneEditor {
 
     private TriggerZones plugin;
+    private ZoneParticleViewer particleViewer;
     private TriggerZoneManager triggerZoneManager;
     private Map<UUID, Selection> playerSelections = new HashMap<>();
 
     public TriggerZoneEditor(TriggerZones plugin, TriggerZoneManager triggerZoneManager) {
         this.plugin = plugin;
         this.triggerZoneManager = triggerZoneManager;
+        particleViewer = new ZoneParticleViewer(plugin, new EditorSelectionProvider(this));
     }
 
     public Optional<Selection> getSelection(Player player) {
@@ -62,6 +66,10 @@ public class TriggerZoneEditor {
 
     public TriggerZones getPlugin() {
         return plugin;
+    }
+
+    public ZoneParticleViewer getParticleViewer() {
+        return particleViewer;
     }
 
 }

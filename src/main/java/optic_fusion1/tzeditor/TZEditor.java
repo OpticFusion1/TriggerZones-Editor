@@ -32,13 +32,17 @@ public class TZEditor extends JavaPlugin {
         if (command == null) {
             return;
         }
-        EditorCommand editorCommand = new EditorCommand(editor);
+        EditorCommand editorCommand = new EditorCommand(this);
         command.setExecutor(editorCommand);
         command.setTabCompleter(editorCommand);
     }
 
     private void registerListeners() {
         pluginManager.registerEvents(new WandSelectionListener(editor), this);
+    }
+
+    public TriggerZoneEditor getEditor() {
+        return editor;
     }
 
 }
