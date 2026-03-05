@@ -23,6 +23,11 @@ jobs:
           java-version: 17
           cache: maven
 
+      - name: Build and install TriggerZones dependency (from GitHub)
+        run: |
+          git clone --depth 1 https://github.com/OpticFusion1/TriggerZones.git
+          mvn -B -DskipTests install -f TriggerZones/pom.xml
+
       - name: Build with Maven
         run: mvn -B package
 
